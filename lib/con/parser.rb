@@ -10,6 +10,9 @@
 # Ruby Language Toolkit
 require 'rltk/parser'
 
+# Con
+require 'con/symbol_table'
+
 #######################
 # Classes and Modules #
 #######################
@@ -19,11 +22,23 @@ module Con
 		class Parser < RLTK::Parser
 			
 			p(:e) do
-				c('SYM') {}
-				c('INT') { |n| n }
-				c('FLOAT') {}
+				c('SYM')   { |n| VarRef.new(@st[n]) }
+				c('INT')   { |n| Con::Int.new(n) }
+				c('FLOAT') { |n| Con::Float.new(n) }
 				
-				clause('LPAREN e RPAREN') { |_, e, _| e }
+				c('LPAREN LAMBDA LPAREN .param_syms RPAREN .e RPAREN') { |params, body| Lambda.new(params, body) }
+				
+				c('LPAREN .e .e* RPAREN') { |rator, rands| Application.new(rator, rands) }
+			end
+			
+			p(:param_syms) do
+				
+			end
+			
+			class Environment
+				def initialize
+					@st = SymbolTable.new
+				end
 			end
 			
 			finalize

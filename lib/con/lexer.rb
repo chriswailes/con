@@ -3,6 +3,8 @@
 # Date:		2014/10/02
 # Description:	This file contains a lexer for a version of Scheme.
 
+# encoding: UTF-8
+
 ############
 # Requires #
 ############
@@ -25,13 +27,16 @@ module Con
 		rule(/\(/) { :LPAREN }
 		rule(/\)/) { :RPAREN }
 		
-		rule(/\'/) { :QUOTE }
-		rule(/\`/) { :QUASI }
-		rule(/\./) { :DOT }
+#		rule(/\'/) { :QUOTE }
+#		rule(/\`/) { :QUASI }
+#		rule(/\./) { :DOT }
+		
+		rule(/lambda/) { :LAMBDA }
+		rule(/λ/)      { :LAMBDA }
 		
 		rule(/[^\s\d][^\s]+/) { |t| [:SYM, t] }
 		
-		rule(/[0-9]+/)	        { |t| [:INT, t.to_i] }
+		rule(/[0-9]+/)	       { |t| [:INT, t.to_i] }
 		rule(/[0-9]+\.[0-9]+/) { |t| [:FLOAT, t.to_f }
 		
 		# Throw away spaces and comments.
