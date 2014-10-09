@@ -95,7 +95,24 @@ request_file('yard', 'Yard is not installed.') do
 			'-M',       'redcarpet',
 			'--private'
 		]
-		
+
 		t.files = Dir['lib/**/*.rb']
 	end
+end
+
+################
+# Con Tasks #
+################
+
+desc 'Re-generate the Con parser table.'
+task :grammar do
+     begin
+          $: << File.expand_path('../lib', __FILE__)
+          require 'con'
+          Con::Parser
+
+     rescue Exception => e
+          puts e.message
+          puts e.backtrace
+     end
 end

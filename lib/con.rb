@@ -4,7 +4,7 @@
 # Description:	This file sets up autoloads for the RLTK module.
 
 # The Con module contains all of the Con compiler iternals.
-module RLTK
+module Con
 	autoload :AST,    'con/ast'
 	autoload :Lexer,  'con/lexer'
 	autoload :Parser, 'con/parser'

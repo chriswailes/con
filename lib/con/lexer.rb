@@ -19,26 +19,32 @@ require 'rltk/lexer'
 module Con
 	# The lexer for the language accepted by Con.
 	class Lexer < RLTK::Lexer
-		
+
 		#################
 		# Default State #
 		#################
-		
+
 		rule(/\(/) { :LPAREN }
 		rule(/\)/) { :RPAREN }
-		
+		rule(/:/)  { :COLON  }
+
 #		rule(/\'/) { :QUOTE }
 #		rule(/\`/) { :QUASI }
 #		rule(/\./) { :DOT }
-		
+
 		rule(/lambda/) { :LAMBDA }
 		rule(/λ/)      { :LAMBDA }
-		
-		rule(/[^\s\d][^\s]+/) { |t| [:SYM, t] }
-		
-		rule(/[0-9]+/)	       { |t| [:INT, t.to_i] }
-		rule(/[0-9]+\.[0-9]+/) { |t| [:FLOAT, t.to_f }
-		
+
+		# Types
+		rule(/int/)   { :TINT   }
+		rule(/float/) { :TFLOAT }
+
+		rule(/[A-Za-z]+/) { |t| [:SYM, t.to_sym] }
+
+		# Literals
+		rule(/[0-9]+/)         { |t| [:INT,   t.to_i] }
+		rule(/[0-9]+\.[0-9]+/) { |t| [:FLOAT, t.to_f] }
+
 		# Throw away spaces and comments.
 		rule(/\s/)
 		rule(/;[^\n]*\n/)
