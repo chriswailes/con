@@ -42,6 +42,10 @@ module Con
 		end
 	end
 
+	class NativeLambda < Lambda
+
+	end
+
 	class Application < Expression
 		child :rator, Expression
 		child :rand, [Expression]

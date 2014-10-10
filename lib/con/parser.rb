@@ -26,7 +26,7 @@ module Con
 			c('INT')   { |n| Con::Int.new(n) }
 			c('FLOAT') { |n| Con::Float.new(n) }
 
-			c('LPAREN LAMBDA LPAREN .param_syms RPAREN .e RPAREN') { |params, body| Lambda.new(params, body) }
+			c('LPAREN LAMBDA LPAREN .param_syms RPAREN .e RPAREN') { |params, body| @st.drop_frame; Lambda.new(params, body) }
 
 			c('LPAREN .e .e* RPAREN') { |rator, rands| Application.new(rator, rands) }
 		end
@@ -46,7 +46,7 @@ module Con
 			c(:TFLOAT) { |_| :float }
 		end
 
-		token_hook(:LAMBDA) {@st.new_frame}
+		token_hook(:LAMBDA) {@st.add_frame}
 
 		class Environment < Environment
 			def initialize

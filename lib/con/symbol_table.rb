@@ -27,22 +27,26 @@ module Con
 		end
 
 		def [](sym)
-			ref =
+			symdef =
 			@frames.inject(nil) {|_, frame| if frame.key?(sym) then break frame[sym] else nil end}
 
-			ref or raise UnknownVariable.new(sym)
+			if symdef then VarRef.new(symdef) else raise UnknownVariable.new(sym) end
 		end
 
 		def add_frame
-			@frames.shift Hash.new
-		en
+			@frames.unshift(Hash.new)
+		end
 
 		def declare(sym, type)
-			@frames.fist[sym] = VarDef.new(sym, type)
+			if @frames.first[sym]
+				raise "Attempting to add symbol #{sym} to the same frame a second time."
+			end
+
+			@frames.first[sym] = VarDef.new(sym, type)
 		end
 
 		def drop_frame
-			@frames.unshift
+			@frames.shift
 		end
 	end
 end

@@ -10,11 +10,21 @@ require 'con/parser'
 continue = true
 
 while continue
-	line = Readline.readline("> ", true)
+	line = Readline.readline("Con > ", true)
 
-	if line == 'exit'
+
+	if not line or line == 'exit'
+		puts
 		continue = false
 	else
-		puts Con::Parser.parse(Con::Lexer.lex(line)).to_s
+		begin
+			puts Con::Parser.parse(Con::Lexer.lex(line)).to_s
+
+		rescue RLTK::NotInLanguage => e
+			puts 'Invalid input'
+
+		rescue Con::UnknownVariable => e
+			puts e.message
+		end
 	end
 end
