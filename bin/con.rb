@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
 $: << File.join(File.basename(File.expand_path(__FILE__)), '../lib')
 
