@@ -98,7 +98,7 @@ module Con
 	end
 
 	class Float < Literal
-		value :val, Float
+		value :val, ::Float
 
 		def type
 			FloatType.instance

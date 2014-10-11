@@ -22,17 +22,17 @@ module Con
 	class TypeChecking
 		include Filigree::Visitor
 
-		on VarDef.(_, type).as node do
+		on VarDef.(_, type) do
 			type
 		end
 
-		on Lambda.(params, body, _).as node do
+		on Lambda.(params, body, _) do |node|
 			param_types = params.map { |p| visit p }
 
 			node.type = FunctionType.new(param_types, (visit node.body))
 		end
 
-		on Application.(rator, rands, _).as node do
+		on Application.(rator, rands, _) do |node|
 			rator_type = visit rator
 			rands_type = rands.map { |e| visit e }
 
