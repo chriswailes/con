@@ -26,19 +26,19 @@ module Con
 			c('INT')   { |n| Con::Int.new(n) }
 			c('FLOAT') { |n| Con::Float.new(n) }
 
-			c('LPAREN LAMBDA LPAREN .param_syms RPAREN .e RPAREN') { |params, body| @st.drop_frame; Lambda.new(params, body) }
+			c('LPAREN LAMBDA LPAREN .params RPAREN .e RPAREN') { |params, body| @st.drop_frame; Lambda.new(nil, params, body) }
 
 			c('LPAREN .e .e* RPAREN') { |rator, rands| Application.new(rator, rands) }
 		end
 
-		p(:param_syms) do
+		p(:params) do
 			c('')                { [] }
-			c(:param_syms_prime) { |lst| lst }
+			c(:params_prime) { |lst| lst }
 		end
 
-		p(:param_syms_prime) do
-			c('.SYM COLON .type')                   { |s, t|           [@st.declare(s, t)] }
-			c('.param_syms_prime .SYM COLON .type') { |lst, s, t| lst << @st.declare(s, t) }
+		p(:params_prime) do
+			c('.SYM COLON .type')               { |s, t|           [@st.declare(s, t)] }
+			c('.params_prime .SYM COLON .type') { |lst, s, t| lst << @st.declare(s, t) }
 		end
 
 		p(:type) do

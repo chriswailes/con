@@ -7,7 +7,9 @@
 # Requires #
 ############
 
+# Con
 require 'con/ast'
+require 'con/types'
 
 #######################
 # Classes and Modules #
@@ -24,6 +26,10 @@ module Con
 		def initialize
 			# Initialize our frames with the global frame.
 			@frames = [{}]
+			@type_table = {
+				int:   IntType,
+				float: FloatType
+			}
 		end
 
 		def [](sym)
@@ -42,7 +48,7 @@ module Con
 				raise "Attempting to add symbol #{sym} to the same frame a second time."
 			end
 
-			@frames.first[sym] = VarDef.new(sym, type)
+			@frames.first[sym] = VarDef.new(sym, @type_table[type].instance )
 		end
 
 		def drop_frame

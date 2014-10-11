@@ -1,8 +1,23 @@
+# Author:      Chris Wailes <chris.wailes@gmail.com>
+# Project:     Con
+# Date:        2014/10/10
+# Description: This file contains the LLVM IR building code.
+
 # encoding: UTF-8
 
+############
+# Requires #
+############
+
+# RLTK
 require 'rltk/cg/contractor'
 
+# Con
 require 'con/ast'
+
+#######################
+# Classes and Modules #
+#######################
 
 module Con
 	class LLVMBackend < RLTK::CG::Contractor
