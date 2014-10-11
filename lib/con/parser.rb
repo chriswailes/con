@@ -28,7 +28,7 @@ module Con
 
 			c('LPAREN LAMBDA LPAREN .params RPAREN .e RPAREN') { |params, body| @st.drop_frame; Lambda.new(nil, params, body) }
 
-			c('LPAREN .e .e* RPAREN') { |rator, rands| Application.new(rator, rands) }
+			c('LPAREN .e .e* RPAREN') { |rator, rands| Application.new(nil, rator, rands) }
 		end
 
 		p(:params) do

@@ -33,7 +33,7 @@ module Con
 		end
 
 		on Application.(rator, rands, _).as node do
-			rator_type = rator.type
+			rator_type = visit rator
 			rands_type = rands.map { |e| visit e }
 
 			if rator_type.param_types != rands_type
