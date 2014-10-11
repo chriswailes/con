@@ -1,9 +1,8 @@
+# encoding: UTF-8
 # Author:		Chris Wailes <chris.wailes@gmail.com>
 # Project: 	Con
 # Date:		2014/10/02
 # Description:	This file contains a lexer for a version of Scheme.
-
-# encoding: UTF-8
 
 ############
 # Requires #
