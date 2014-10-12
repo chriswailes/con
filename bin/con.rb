@@ -45,6 +45,8 @@ class Configuration
 
 	help 'File to process.'
 	string_option 'file', 'f'
+
+	# TODO: Add an option to evaluate an expression given on the command line (-e).
 end
 
 def file_contents_or_stdin(file)
@@ -63,7 +65,8 @@ def evaluate(contents)
 	begin
 		ast = Con::Parser.parse(Con::Lexer.lex(contents))
 
-		Con::TypeChecking.new.visit ast
+#		Con::TypeChecking.new.visit ast
+		ast.visit Con::TypeChecking.new, :postorder
 
 		puts ast.to_s
 

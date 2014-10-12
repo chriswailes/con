@@ -22,33 +22,19 @@ module Con
 	class TypeChecking
 		include Filigree::Visitor
 
-		on VarDef.(_, type) do
-			type
-		end
-
 		on Lambda.(params, body, _) do |node|
-			param_types = params.map { |p| visit p }
-
-			node.type = FunctionType.new(param_types, (visit node.body))
+			node.type = FunctionType.new((params.map &:type), (body.type))
 		end
 
 		on Application.(rator, rands, _) do |node|
-			rator_type = visit rator
-			rands_type = rands.map { |e| visit e }
+			rator_type = rator.type
+			rands_type = rands.map &:type
 
 			if rator_type.param_types != rands_type
 				raise TypeError, "Type mismatch in application."
 			end
 
 			node.type = rator_type.return_type
-		end
-
-		on Literal.(_, type) do
-			type
-		end
-
-		on VarRef.(_, type) do
-			type
 		end
 	end
 end
