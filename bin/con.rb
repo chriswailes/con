@@ -15,6 +15,10 @@ require 'filigree/match'
 class Configuration
 	include Filigree::Configuration
 
+	usage "./con.rb [options]"
+
+	add_option Filigree::Configuration::HELP_OPTION
+
 	attr_reader :mode
 
 	def set_mode(mode)
@@ -75,7 +79,7 @@ def repl(conf)
 	# TODO: If a file was given, its contents should be sourced into the
 	# environment before the REPL loads.
 	puts "Con v#{Con::VERSION} REPL (CTRL-D to exit)"
-	loop {
+	loop do
 		line = Readline.readline("Con > ", true)
 		if not line
 			puts
@@ -83,21 +87,20 @@ def repl(conf)
 		else
 			evaluate line
 		end
-	}
+	end
 end
 
 conf = Configuration.new(ARGV)
-match conf.mode do
-	with(:lex) { tokenize conf }
-	with(:parse) { dump_ast conf }
-	with(:repl) { repl conf }
-	with(_) {
-		if conf.file
-			evaluate File.open(conf.file).read
-		elsif STDIN.isatty
-			repl conf
-		else
-			evaluate STDIN.read
-		end
-	}
+case conf.mode
+when :lex   then tokenize conf
+when :parse then dump_ast conf
+when :repl  then repl conf
+else
+	if conf.file
+		evaluate File.open(conf.file).read
+	elsif STDIN.isatty
+		repl conf
+	else
+		evaluate STDIN.read
+	end
 end
