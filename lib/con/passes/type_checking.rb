@@ -23,7 +23,7 @@ module Con
 		include Filigree::Visitor
 
 		on Lambda.(params, body, _) do |node|
-			node.type = FunctionType.new((params.map &:type), (body.type))
+			node.type = FunctionType.new((params.map &:type), body.type)
 		end
 
 		on Application.(rator, rands, _) do |node|
