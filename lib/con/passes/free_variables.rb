@@ -27,7 +27,7 @@ module Con
 		end
 
 		on Lambda.(params, _, _) do |node|
-			param_syms = params.map { |p| p.def.name }
+			param_syms = params.map &:name
 
 			node['free_variables'] = @free_set - param_syms
 

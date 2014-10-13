@@ -54,7 +54,7 @@ module Con
 		end
 
 		def to_s
-			if @param_types.emtpy?
+			if @param_types.empty?
 				"'() -> #{@return_type}"
 			else
 				@param_types.map(&:to_s).join(' -> ') + " -> #{@return_type}"

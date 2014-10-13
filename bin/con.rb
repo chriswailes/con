@@ -6,6 +6,7 @@ require 'readline'
 
 require 'con/lexer'
 require 'con/parser'
+require 'con/passes/free_variables'
 require 'con/passes/type_checking'
 require 'con/version'
 
@@ -65,8 +66,10 @@ def evaluate(contents)
 	begin
 		ast = Con::Parser.parse(Con::Lexer.lex(contents))
 
-#		Con::TypeChecking.new.visit ast
+		# Run necessary passes.
+		# TODO: Replace this with a proper pass manager.
 		ast.visit Con::TypeChecking.new, :postorder
+		ast.visit Con::FreeVariableAnalysis.new, :postorder
 
 		puts ast.to_s
 
